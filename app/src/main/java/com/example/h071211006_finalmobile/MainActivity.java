@@ -2,7 +2,10 @@ package com.example.h071211006_finalmobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +39,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnFavorites.setOnClickListener(this);
         btnTVShows.setOnClickListener(this);
 
+//        Intent intent = getIntent();
+//        String fragment = intent.getStringExtra("fragment");
+//        if (fragment != null) {
+//            switch (fragment) {
+//                case "movies":
+//                    switchToMoviesFragment();
+//                    break;
+//                case "tvshows":
+//                    switchToTvShowsFragment();
+//                    break;
+//                case "favorites":
+//                    switchToFavoritesFragment();
+//                    break;
+//                default:
+//                    break;
+//            }
+//        } else {
+//            switchToMoviesFragment();
+//        }
+
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(MoviesFragment.class.getSimpleName());
         if (!(fragment instanceof MoviesFragment)) {
             getSupportFragmentManager()
@@ -43,8 +66,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .add(R.id.frameContainer, moviesFragment,
                             MoviesFragment.class.getSimpleName())
                     .commit();
-        }
+//        }
         getSupportActionBar().setTitle("Movies");
+    }
+
+//    private void switchToMoviesFragment() {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        Fragment moviesFragment = new MoviesFragment();
+//        fragmentTransaction.replace(R.id.frameContainer, moviesFragment);
+//
+//        fragmentTransaction.commit();
+//    }
+//
+//    private void switchToTvShowsFragment() {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        Fragment tvShowsFragment = new TVShowsFragment();
+//        fragmentTransaction.replace(R.id.frameContainer, tvShowsFragment);
+//
+//        fragmentTransaction.commit();
+//    }
+//
+//    private void switchToFavoritesFragment() {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        Fragment favoritesFragment = new FavoritesFragment();
+//        fragmentTransaction.replace(R.id.frameContainer, favoritesFragment);
+//
+//        fragmentTransaction.commit();
     }
 
     @Override

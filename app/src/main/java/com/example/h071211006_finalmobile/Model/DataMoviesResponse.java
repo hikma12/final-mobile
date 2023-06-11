@@ -1,6 +1,9 @@
 package com.example.h071211006_finalmobile.Model;
 
 import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class DataMoviesResponse {
+public class DataMoviesResponse implements Parcelable {
     @SerializedName("id")
     private String id;
     @SerializedName("backdrop_path")
@@ -23,6 +26,18 @@ public class DataMoviesResponse {
     private String overview;
     @SerializedName("title")
     private String title;
+
+    public static final Creator<DataMoviesResponse> CREATOR = new Creator<DataMoviesResponse>() {
+        @Override
+        public DataMoviesResponse createFromParcel(Parcel in) {
+            return new DataMoviesResponse(in);
+        }
+
+        @Override
+        public DataMoviesResponse[] newArray(int size) {
+            return new DataMoviesResponse[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -88,5 +103,21 @@ public class DataMoviesResponse {
         voteAverage = in.readString();
         overview = in.readString();
         title = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(backdropPath);
+        parcel.writeString(posterPath);
+        parcel.writeString(releaseDate);
+        parcel.writeString(voteAverage);
+        parcel.writeString(overview);
+        parcel.writeString(title);
     }
 }

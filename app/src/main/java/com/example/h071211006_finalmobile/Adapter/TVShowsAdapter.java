@@ -40,10 +40,13 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.ViewHold
         DataTVShowsResponse dataTVShowsResponse = dataTVShowsResponseList.get(position);
         holder.tvTitle.setText(dataTVShowsResponse.getName());
         holder.tvRelease.setText(dataTVShowsResponse.getFirstAirDate());
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_USER, dataTVShowsResponse.getId());
-            holder.itemView.getContext().startActivity(intent);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra(DetailActivity.EXTRA_USER_TVSHOW, dataTVShowsResponse);
+                context.startActivity(intent);
+            }
         });
 
         String poster = "https://image.tmdb.org/t/p/w500" + dataTVShowsResponse.getPosterPath();
@@ -51,10 +54,6 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.ViewHold
                 .load(poster)
                 .into(holder.ivPoster);
 
-//        String backdrop = "https://image.tmdb.org/t/p/w500" + dataTVShowsResponse.getBackdropPath();
-//        Glide.with(holder.ivBackdrop.getContext())
-//                .load(backdrop)
-//                .into(holder.ivBackdrop);
     }
 
     @Override
