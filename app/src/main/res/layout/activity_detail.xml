@@ -21,10 +21,10 @@
     <FrameLayout
         android:id="@+id/frame_poster"
         android:layout_width="120dp"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         android:layout_below="@id/frame_scene"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="-70dp"
+        android:layout_marginTop="-45dp"
         android:elevation="6dp">
 
         <ImageView
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/frame_scene"
-        android:layout_marginStart="15dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="-40dp"
         android:layout_toRightOf="@id/frame_poster"
         android:elevation="6dp">
@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/frame_info"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="55dp"
         android:backgroundTint="#F5F5F1"
         android:elevation="4dp">
 

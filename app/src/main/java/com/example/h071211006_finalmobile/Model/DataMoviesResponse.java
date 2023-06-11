@@ -39,6 +39,9 @@ public class DataMoviesResponse implements Parcelable {
         }
     };
 
+    public DataMoviesResponse(String valueOf, String title, String releaseDate, String posterPath, String synopsis, String backdropPath, String valueOf1) {
+    }
+
     public String getId() {
         return id;
     }
@@ -95,7 +98,7 @@ public class DataMoviesResponse implements Parcelable {
         this.title = title;
     }
 
-    protected DataMoviesResponse(Parcel in) {
+    public DataMoviesResponse(Parcel in) {
         id = in.readString();
         backdropPath = in.readString();
         posterPath = in.readString();

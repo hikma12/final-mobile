@@ -35,6 +35,9 @@ public class DataTVShowsResponse implements Parcelable {
         }
     };
 
+    public DataTVShowsResponse(String valueOf, String title, String releaseDate, String posterPath, String synopsis, String backdropPath, String valueOf1) {
+    }
+
     public String getId() {
         return id;
     }
@@ -91,7 +94,7 @@ public class DataTVShowsResponse implements Parcelable {
         this.name = name;
     }
 
-    protected DataTVShowsResponse(Parcel in) {
+    public DataTVShowsResponse(Parcel in) {
         id = in.readString();
         backdropPath = in.readString();
         firstAirDate = in.readString();

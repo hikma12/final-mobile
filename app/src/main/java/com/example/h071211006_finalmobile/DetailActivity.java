@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,16 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.h071211006_finalmobile.API.ApiConfig;
-import com.example.h071211006_finalmobile.Adapter.MovieAdapter;
 import com.example.h071211006_finalmobile.Model.DataMoviesResponse;
 import com.example.h071211006_finalmobile.Model.DataTVShowsResponse;
-import com.example.h071211006_finalmobile.Model.Movies;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -35,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView ivBackDrop, ivRatingStar, ivPoster, ivViewMovie, ivViewTVShow;
     private FloatingActionButton fabFav, fabBack;
     private Handler handler;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +53,8 @@ public class DetailActivity extends AppCompatActivity {
         handler = new Handler(Looper.getMainLooper());
 
         getSupportActionBar().hide();
+
+        databaseHelper = new DatabaseHelper(this);
 
         fabBack.setOnClickListener(view -> {
             finish();
@@ -114,5 +112,51 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         }
+        fabFav.setOnClickListener(view -> {
+            if (isOnline()) {
+                if (intent != null) {
+                    if (intent.hasExtra(EXTRA_USER_MOVIE)) {
+                        DataMoviesResponse movie = intent.getParcelableExtra(EXTRA_USER_MOVIE);
+                        if (movie != null) {
+                            if (databaseHelper.isFavorite(movie.getTitle())) {
+                                databaseHelper.removeFavorite(movie.getTitle());
+                                Toast.makeText(this, "Film dihapus dari favorit", Toast.LENGTH_SHORT).show();
+                                fabFav.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.favorite_off_color)));
+                            } else {
+                                databaseHelper.addFavorite(movie);
+                                Toast.makeText(this, "Film ditambahkan ke favorit", Toast.LENGTH_SHORT).show();
+                                fabFav.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.favorite_on_color)));
+                            }
+                        } else {
+                            Toast.makeText(this, "Data movie tidak tersedia", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (intent.hasExtra(EXTRA_USER_TVSHOW)) {
+                        DataTVShowsResponse tvShow = intent.getParcelableExtra(EXTRA_USER_TVSHOW);
+                        if (tvShow != null) {
+                            if (databaseHelper.isFavorite(tvShow.getName())) {
+                                databaseHelper.removeFavorite(tvShow.getName());
+                                Toast.makeText(this, "Acara TV dihapus dari favorit", Toast.LENGTH_SHORT).show();
+                                fabFav.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.favorite_off_color)));
+                            } else {
+                                databaseHelper.addFavorite(tvShow);
+                                Toast.makeText(this, "Acara TV ditambahkan ke favorit", Toast.LENGTH_SHORT).show();
+                                fabFav.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.favorite_on_color)));
+                            }
+                        } else {
+                            Toast.makeText(this, "Data tv show tidak tersedia", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    private boolean isOnline() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
 }
